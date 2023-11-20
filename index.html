@@ -9,7 +9,9 @@
   </head>
   <body>
     <div id="app">
-      <h1>Month Year</h1>
+      <h1>{{ getMonth() }}</h1>
+      <button @click="handlePreviousMonth">&lt;</button>
+      <button @click="handleNextMonth">&gt;</button>
       <table>
         <thead>
           <tr>
@@ -24,9 +26,23 @@
 
       const app = createApp({
         data: () => ({
-          daysOfWeek: ['S', 'M', 'T', 'W', 'T', 'F', 'S']
+          daysOfWeek: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+          currentMonth: new Date().getMonth(),
+          currentYear: new Date().getFullYear()
         }),
-        methods: {}
+        methods: {
+          getMonth() {
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+            return months[this.currentMonth];
+          },
+          handleNextMonth() {
+            this.currentMonth = (this.currentMonth + 1) % 12;
+          },
+          handlePreviousMonth() {
+            this.currentMonth = (this.currentMonth - 1 + 12) % 12;
+          }
+        }
       })
 
       app.mount('#app')
