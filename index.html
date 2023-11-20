@@ -9,7 +9,7 @@
   </head>
   <body>
     <div id="app">
-      <h1>{{ getMonth() }}</h1>
+      <h1>{{ getMonth() }} {{ currentYear }}</h1>
       <button @click="handlePreviousMonth">&lt;</button>
       <button @click="handleNextMonth">&gt;</button>
       <table>
@@ -38,9 +38,15 @@
           },
           handleNextMonth() {
             this.currentMonth = (this.currentMonth + 1) % 12;
+            if (this.currentMonth === 0) {
+              this.currentYear++;
+            }
           },
           handlePreviousMonth() {
             this.currentMonth = (this.currentMonth - 1 + 12) % 12;
+            if (this.currentMonth === 11) {
+              this.currentYear--;
+            }
           }
         }
       })
