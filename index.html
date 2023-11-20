@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calendar</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Month Year</h1>
+      <table>
+        <thead>
+          <tr>
+            <th v-for="day in daysOfWeek" :key="day">{{ day }}</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <script>
+      const { createApp } = Vue
+
+      const app = createApp({
+        data: () => ({
+          daysOfWeek: ['S', 'M', 'T', 'W', 'T', 'F', 'S']
+        }),
+        methods: {}
+      })
+
+      app.mount('#app')
+    </script>
+  </body>
+</html>
