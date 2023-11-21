@@ -7,20 +7,29 @@
     <title>Calendar</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   </head>
+
   <body>
     <div id="app">
       <h1>{{ getMonth() }} {{ currentYear }}</h1>
       <button @click="handlePreviousMonth">&lt;</button>
       <button @click="handleNextMonth">&gt;</button>
+      <button @click="renderDays">Test</button>
       <table>
         <thead>
           <tr>
             <th v-for="day in daysOfWeek" :key="day">{{ day }}</th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+          <tr v-for="(week, index) in renderDays()" :key="index">
+            <td v-for="day in week" :key="day || 'empty'">
+              {{ day }}
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
+
     <script>
       const { createApp } = Vue
 
@@ -47,6 +56,72 @@
             if (this.currentMonth === 11) {
               this.currentYear--;
             }
+          },
+          renderDays() {
+            const firstDayOfMonth = new Date(this.currentYear, this.currentMonth, 1).getDay();
+            const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
+            let daysInPrevMonth = new Date(this.currentYear, this.currentMonth, 0).getDate();
+
+            console.log('first day of month: ', firstDayOfMonth);
+            console.log('days prev month: ', daysInPrevMonth);
+
+            // firstDayOfMonth returns index of day 1 in first week
+            // daysInPrevMonth gives total days in past month
+            // number of days to show in prev month is equal to firstDayOfMonth
+
+            // we want to create an array and fill it with arrays with length 7
+            // how many arrays will be determined by calculating the weeks in the month
+
+            // calculate weeks in month:
+            // firstDayOfMonth + daysInMonth / 7
+            const weeksInMonth = Math.ceil((firstDayOfMonth + daysInMonth) / 7);
+            console.log('weeks: ', weeksInMonth);
+            const totalListOfDays = [];
+            const prevMonthDays = [];
+            let prevMonthOverflowCount = firstDayOfMonth;
+            let day = 1;
+
+            while (prevMonthOverflowCount > 0) {
+              prevMonthDays.push(daysInPrevMonth);
+              daysInPrevMonth--;
+              prevMonthOverflowCount--;
+            }
+
+            prevMonthDays.reverse();
+            console.log('prev month days: ', prevMonthDays);
+
+            totalListOfDays.push(...prevMonthDays);
+
+            while (day <= daysInMonth) {
+              totalListOfDays.push(day);
+              day++;
+            }
+
+            let nextMonthOverflow = (weeksInMonth * 7) - totalListOfDays.length;
+            console.log('next Month overflow: ', nextMonthOverflow);
+            let nextMonthDay = 1;
+
+            while (nextMonthOverflow > 0) {
+              totalListOfDays.push(nextMonthDay);
+              nextMonthDay++;
+              nextMonthOverflow--;
+            }
+
+            console.log('totalListOFDays: ', totalListOfDays, totalListOfDays.length);
+
+            const calendarGrid = [];
+            let count = 0;
+
+            for (let week = 0; week < weeksInMonth; week++) {
+              const weekArray = [];
+              for (let day = 0; day < 7; day++) {
+                weekArray.push(totalListOfDays[count])
+                count++;
+              }
+              calendarGrid.push(weekArray);
+            }
+            console.log('calendar: ', calendarGrid);
+            return calendarGrid;
           }
         }
       })
