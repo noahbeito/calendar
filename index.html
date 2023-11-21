@@ -13,7 +13,7 @@
       <h1>{{ getMonth() }} {{ currentYear }}</h1>
       <button @click="handlePreviousMonth">&lt;</button>
       <button @click="handleNextMonth">&gt;</button>
-      <button @click="renderDays">Test</button>
+      <button @click="handleToday">Today</button>
       <table>
         <thead>
           <tr>
@@ -56,6 +56,10 @@
             if (this.currentMonth === 11) {
               this.currentYear--;
             }
+          },
+          handleToday() {
+            this.currentMonth = new Date().getMonth();
+            this.currentYear = new Date().getFullYear()
           },
           renderDays() {
             const firstDayOfMonthIndex = new Date(this.currentYear, this.currentMonth, 1).getDay();
