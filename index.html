@@ -22,8 +22,8 @@
         </thead>
         <tbody>
           <tr v-for="(week, index) in renderDays()" :key="index">
-            <td v-for="day in week" :key="day || 'empty'">
-              {{ day }}
+            <td v-for="dayInfo in week" :key="dayInfo.dayNum + dayInfo.class" :class="dayInfo.class">
+              {{ dayInfo.dayNum }}
             </td>
           </tr>
         </tbody>
@@ -82,7 +82,12 @@
             let day = 1;
 
             while (prevMonthOverflowCount > 0) {
-              prevMonthDays.push(daysInPrevMonth);
+              const prevMonthDayInfo = {
+                dayNum: daysInPrevMonth,
+                isCurrentDay: false,
+                class: 'other-month'
+              }
+              prevMonthDays.push(prevMonthDayInfo);
               daysInPrevMonth--;
               prevMonthOverflowCount--;
             }
@@ -93,7 +98,16 @@
             totalListOfDays.push(...prevMonthDays);
 
             while (day <= daysInMonth) {
-              totalListOfDays.push(day);
+              const date = new Date(this.currentYear, this.currentMonth, day);
+              const isCurrentMonth = day <= daysInMonth;
+              const isCurrentDay = isCurrentMonth && date.toDateString() === new Date().toDateString();
+
+              const dayInfo = {
+                dayNum: day,
+                isCurrentDay,
+                class: 'current-month'
+              }
+              totalListOfDays.push(dayInfo);
               day++;
             }
 
@@ -102,7 +116,12 @@
             let nextMonthDay = 1;
 
             while (nextMonthOverflow > 0) {
-              totalListOfDays.push(nextMonthDay);
+              const nextMonthDayInfo = {
+                dayNum: nextMonthDay,
+                isCurrentDay: false,
+                class: 'other-month'
+              }
+              totalListOfDays.push(nextMonthDayInfo);
               nextMonthDay++;
               nextMonthOverflow--;
             }
@@ -128,5 +147,19 @@
 
       app.mount('#app')
     </script>
+    <style scoped>
+      .current-month, .other-month {
+        text-align: center;
+      }
+
+      .current-month {
+        color: black;
+        font-weight: bold;
+      }
+
+      .other-month {
+        color: grey;
+      }
+    </style>
   </body>
 </html>
