@@ -58,33 +58,32 @@
             }
           },
           renderDays() {
-            const firstDayOfMonth = new Date(this.currentYear, this.currentMonth, 1).getDay();
+            const firstDayOfMonthIndex = new Date(this.currentYear, this.currentMonth, 1).getDay();
             const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
             let daysInPrevMonth = new Date(this.currentYear, this.currentMonth, 0).getDate();
 
-            console.log('first day of month: ', firstDayOfMonth);
+            console.log('first day of month: ', firstDayOfMonthIndex);
             console.log('days prev month: ', daysInPrevMonth);
 
-            // firstDayOfMonth returns index of day 1 in first week
+            // firstDayOfMonthIndex returns index of day 1 in first week
             // daysInPrevMonth gives total days in past month
-            // number of days to show in prev month is equal to firstDayOfMonth
+            // number of days to show in prev month is equal to firstDayOfMonthIndex
 
             // we want to create an array and fill it with arrays with length 7
             // how many arrays will be determined by calculating the weeks in the month
 
             // calculate weeks in month:
-            // firstDayOfMonth + daysInMonth / 7
-            const weeksInMonth = Math.ceil((firstDayOfMonth + daysInMonth) / 7);
+            // firstDayOfMonthIndex + daysInMonth / 7
+            const weeksInMonth = Math.ceil((firstDayOfMonthIndex + daysInMonth) / 7);
             console.log('weeks: ', weeksInMonth);
             const totalListOfDays = [];
             const prevMonthDays = [];
-            let prevMonthOverflowCount = firstDayOfMonth;
+            let prevMonthOverflowCount = firstDayOfMonthIndex;
             let day = 1;
 
             while (prevMonthOverflowCount > 0) {
               const prevMonthDayInfo = {
                 dayNum: daysInPrevMonth,
-                isCurrentDay: false,
                 class: 'other-month'
               }
               prevMonthDays.push(prevMonthDayInfo);
@@ -104,8 +103,7 @@
 
               const dayInfo = {
                 dayNum: day,
-                isCurrentDay,
-                class: 'current-month'
+                class: isCurrentDay ? 'current-month current-day' : 'current-month'
               }
               totalListOfDays.push(dayInfo);
               day++;
@@ -118,7 +116,6 @@
             while (nextMonthOverflow > 0) {
               const nextMonthDayInfo = {
                 dayNum: nextMonthDay,
-                isCurrentDay: false,
                 class: 'other-month'
               }
               totalListOfDays.push(nextMonthDayInfo);
@@ -148,6 +145,11 @@
       app.mount('#app')
     </script>
     <style scoped>
+      .current-day {
+        background-color: lightblue;
+        border-radius: 50%;
+      }
+
       .current-month, .other-month {
         text-align: center;
       }
