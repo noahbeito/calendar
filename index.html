@@ -9,18 +9,24 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   </head>
 
   <body>
     <div id="app">
-      <h1>{{ getMonth() }} {{ currentYear }}</h1>
-      <button @click="handlePreviousMonth">&lt;</button>
-      <button @click="handleNextMonth">&gt;</button>
-      <button @click="handleToday">Today</button>
+      <div class="header">{{ getMonth() }} {{ currentYear }}</div>
+      <button @click="handlePreviousMonth" class="left-button">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+      </button>
+      <button @click="handleNextMonth" class="right-button">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+
+      </button>
+      <button @click="handleToday" class="today-button">Today</button>
       <table>
         <thead>
           <tr>
-            <th v-for="day in daysOfWeek" :key="day">{{ day }}</th>
+            <th v-for="day in daysOfWeek" :key="day" class="days-row">{{ day }}</th>
           </tr>
         </thead>
         <tbody>
@@ -157,7 +163,11 @@
         font-family: 'Roboto', sans-serif;
       }
 
-      .current-month, .other-month {
+      .header {
+        font-size: 2em;
+      }
+
+      .days-row, .current-month, .other-month {
         text-align: center;
         padding: 10px;
       }
@@ -173,6 +183,16 @@
       .current-day {
         background-color: #1b72e8;
         color: white;
+        border-radius: 50%;
+      }
+
+      button {
+        background: none;
+        border: none;
+      }
+
+      .right-button:hover, .left-button:hover {
+        background-color: lightgray;
         border-radius: 50%;
       }
     </style>
