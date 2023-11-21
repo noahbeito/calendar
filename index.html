@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Calendar</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
   </head>
 
   <body>
@@ -149,22 +152,28 @@
       app.mount('#app')
     </script>
     <style scoped>
-      .current-day {
-        background-color: lightblue;
-        border-radius: 50%;
+
+      body {
+        font-family: 'Roboto', sans-serif;
       }
 
       .current-month, .other-month {
         text-align: center;
+        padding: 10px;
       }
 
       .current-month {
         color: black;
-        font-weight: bold;
       }
 
       .other-month {
         color: grey;
+      }
+
+      .current-day {
+        background-color: #1b72e8;
+        color: white;
+        border-radius: 50%;
       }
     </style>
   </body>
